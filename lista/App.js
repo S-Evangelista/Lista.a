@@ -1,22 +1,22 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 
-const Stack = createStackNavigator();
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+
+const Stack = createNativeStackNavigator();
 
 import Home from "./src/Home";
-import Adicionar from "./src/Adicionar";
 
-function App () {
-  
+function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="Adicionar" component={Adicionar} />
+        {/*<Stack.Screen name="AddList" component={ListaScreen} />*/}
       </Stack.Navigator>
     </NavigationContainer>
   );
-};
+}
 
 export default App;
