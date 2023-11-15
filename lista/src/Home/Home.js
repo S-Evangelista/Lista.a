@@ -1,85 +1,88 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 function Home({ navigation }) {
-         const [tasks, setTasks] = useState([]);
-         const [taskText, setTaskText] = useState('');
-      
-         useEffect(() => {
-          loadData();
-         }, []);
-      
-         const loadData = async () => { 
-           const storedTasks = await AsyncStorage.getItem('tasks');
-           setTasks(storedTasks ? JSON.parse(storedTasks) : []);
-         };
-      
-         const saveData = async (data) => {
-           await AsyncStorage.setItem('tasks', JSON.stringify(data));
-         };
-      
-        const addTask = () => {
-        if (taskText.trim() !== '') {
-             const newTask = { id: tasks.length.toString(), text: taskText, subitems: [] };
-             setTasks([...tasks, newTask]);
-             setTaskText('');
-             saveData([...tasks, newTask]);
-           }
-         };
-      
-         const removeTask = (taskId) => {
-           const updatedTasks = tasks.filter((item) => item.id !== taskId);
-           setTasks(updatedTasks);
-           saveData(updatedTasks);
-         };
-      
-        return (
-          <View >
-             <Text>Lista de Tarefas</Text>
+  const [tarefas, setTarefas] = useState([]);
+  const [textoTarefa, setTextoTarefa] = useState('');
+
+  useEffect(() => {
+    carregarDados();
+  }, []);
+
+  const carregarDados = async () => {
+    const tarefasArmazenadas = await AsyncStorage.getItem('tarefas');
+    setTarefas(tarefasArmazenadas ? JSON.parse(tarefasArmazenadas) : []);
+  };
+
+  const salvarDados = async (dados) => {
+    await AsyncStorage.setItem('tarefas', JSON.stringify(dados));
+  };
+
+  const adicionarTarefa = () => {
+    if (textoTarefa.trim() !== '') {
+      const novaTarefa = { id: tarefas.length.toString(), texto: textoTarefa, subitens: [] };
+      setTarefas([...tarefas, novaTarefa]);
+      setTextoTarefa('');
+      salvarDados([...tarefas, novaTarefa]);
+    }
+  };
+
+  const removerTarefa = (idTarefa) => {
+    const tarefasAtualizadas = tarefas.filter((item) => item.id !== idTarefa);
+    setTarefas(tarefasAtualizadas);
+    salvarDados(tarefasAtualizadas);
+  };
+
+  return (
+    <View>
+      <Text>Lista de Tarefas</Text>
+      <View>
+        <TextInput
+          placeholder="Digite uma tarefa"
+          value={textoTarefa}
+          onChangeText={(texto) => setTextoTarefa(texto)}
+        />
+        <TouchableOpacity onPress={adicionarTarefa}>
+          <Text>Adicionar</Text>
+        </TouchableOpacity>
+      </View>
+      <FlatList
+        data={tarefas}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <View>
+            <Text>{item.texto}</Text>
             <View>
-              <TextInput
-                placeholder="Digite uma tarefa"
-                value={taskText}
-                onChangeText={(text) => setTaskText(text)}
-              />
-              <TouchableOpacity onPress={addTask}>
-                <Text >Adicionar</Text>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('Subitens', {
+                    idTarefa: item.id,
+                    textoTarefa: item.texto,
+                    subitens: item.subitens,
+                    setSubitens: (subitensAtualizados) => {
+                      const tarefasAtualizadas = tarefas.map((t) =>
+                        t.id === item.id ? { ...t, subitens: subitensAtualizados } : t
+                      );
+                      setTarefas(tarefasAtualizadas);
+                      salvarDados(tarefasAtualizadas);
+                    },
+                  })
+                }>
+                <TouchableOpacity onPress={() => navigation.push('Adicionar')}></TouchableOpacity>
+                <Text> Editar </Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => removerTarefa(item.id)}>
+                <Text>Excluir</Text>
               </TouchableOpacity>
             </View>
-            <FlatList
-              data={tasks}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item }) => (
-                <View >
-                  <Text>{item.text}</Text>
-                  <View>
-                    <TouchableOpacity onPress={() => navigation.navigate('Subitems', {
-                      taskId: item.id,
-                      taskText: item.text,
-                      subitems: item.subitems,
-                      setSubitems: (updatedSubitems) => {
-                        const updatedTasks = tasks.map((t) =>
-                          t.id === item.id ? { ...t, subitems: updatedSubitems } : t
-                        );
-                        setTasks(updatedTasks);
-                        saveData(updatedTasks);
-                      },
-                    })}>
-                    <TouchableOpacity onPress={() => navigation.push('Adicionar')}></TouchableOpacity>
-                      <Text> Editar </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => removeTask(item.id)}>
-                      <Text>Excluir</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              )}
-            />
           </View>
-        );
-      };
+        )}
+      />
+    </View>
+  );
+}
 
 export default Home;
+
 
 
