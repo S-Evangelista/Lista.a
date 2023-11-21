@@ -55,7 +55,7 @@ function Home({ navigation }) {
             <View>
               <TouchableOpacity
                 onPress={() =>
-                  navigation.navigate('Subitens', {
+                  navigation.navigate('Adicionar', {
                     idTarefa: item.id,
                     textoTarefa: item.texto,
                     subitens: item.subitens,
