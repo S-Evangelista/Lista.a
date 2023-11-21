@@ -78,7 +78,7 @@ const Adicionar = ({ route }) => {
       />
       <View>
         <TextInput
-          placeholder="Digite um subitem"
+          placeholder="Digite um item"
           value={subitemText}
           onChangeText={(text) => setSubitemText(text)}
         />
