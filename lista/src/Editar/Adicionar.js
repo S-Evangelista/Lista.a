@@ -43,17 +43,16 @@ const Adicionar = ({ route }) => {
 
 
 return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{taskText}</Text>
+    <View >
+      <Text >{taskText}</Text>
       <FlatList
         data={subitems}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View style={styles.subitemContainer}>
+          <View >
             {editingSubitemId === item.id ? (
-              <View style={styles.editingContainer}>
+              <View >
                 <TextInput
-                  style={styles.editingInput}
                   value={editedSubitemText}
                   onChangeText={(text) => setEditedSubitemText(text)}
                 />
@@ -103,92 +102,6 @@ return (
   
 const Stack = createStackNavigator();
 
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    marginTop: 50,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    marginBottom: 20,
-  },
-  input: {
-    flex: 1,
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginRight: 10,
-    paddingHorizontal: 10,
-  },
-  addButton: {
-    backgroundColor: 'blue',
-    padding: 10,
-    borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: 'white',
-  },
-  taskItem: {
-    marginBottom: 10,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 5,
-  },
-  taskButtonContainer: {
-    flexDirection: 'row',
-    marginTop: 10,
-  },
-  editButton: {
-    color: 'blue',
-    marginRight: 10,
-  },
-  deleteButton: {
-    color: 'red',
-  },
-  subitemContainer: {
-    padding: 10,
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 5,
-    marginBottom: 10,
-  },
-  subitemTextContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  subitemButtonContainer: {
-    flexDirection: 'row',
-  },
-  editingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  editingInput: {
-    flex: 1,
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginRight: 10,
-    paddingHorizontal: 10,
-  },
-  editingButton: {
-    backgroundColor: 'blue',
-    padding: 10,
-    borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
 });
 
 export default Adicionar;
