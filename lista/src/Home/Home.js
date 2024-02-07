@@ -35,7 +35,7 @@ function Home({ navigation }) {
 
   return (
     <View>
-      <Text>Lista de Tarefas</Text>
+      <Text>Listinha</Text>
       <View>
         <TextInput
           placeholder="Digite uma tarefa"
